@@ -65,6 +65,7 @@ h3 {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 50px;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .main_info {
@@ -186,7 +187,6 @@ ul {
     .here, .favorite_header, .favorite {
         grid-template-columns: calc(100vw - 20px);
         width: calc(100vw - 20px);
-        flex-wrap: wrap;
     }
 
     .btn_update {
