@@ -67,13 +67,20 @@ h3 {
     width: 100%;
 }
 
-.main_info div {
+.main_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.main_info div{
     display: inline-flex;
     justify-content: center;
 }
 
 .icon_weather {
-    display: flex;
+    display: inline-flex;
     border: solid #7e7e7e 3px;
 }
 
@@ -82,12 +89,13 @@ h3 {
 }
 
 .icon_weather_here {
-    width: 120px;
-    height: 120px;
+    min-width: 120px;
+    min-height: 120px;
 }
 
 .temperature_here{
     font-size: 120px;
+    line-height: 120px;
     float: right;
 }
 
