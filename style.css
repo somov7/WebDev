@@ -82,7 +82,11 @@ h3 {
 
 .icon_weather {
     display: inline-flex;
-    border: solid #7e7e7e 3px;
+    background-image: url('img/weather.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    min-width: 40px;
+    min-height: 40px;
 }
 
 .icon_weather span {
