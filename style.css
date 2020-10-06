@@ -13,8 +13,7 @@ header {
     display: flex;
 }
 
-.btn_update, .btn_update_mobile {
-    position: absolute;
+.btn_update, .btn_retry {
     color: #708289;
     background-color: #c9d2d7;
     border: none;
@@ -22,7 +21,11 @@ header {
     align-self: center;
 }
 
-.btn_update {
+.btn_update_main, .btn_update_mobile {
+    position: absolute;
+}
+
+.btn_update_main {
     padding: 10px 40px;
     left: 50%;
     transform: translate(-50%, 0);
@@ -37,6 +40,12 @@ header {
     background-position: 5px 5px;
     right: 10px;
     display: none;
+}
+
+.btn_retry {
+    padding: 10px 40px;
+    text-align: center;
+    margin: 10px;
 }
 
 h1, h2, h3 {
@@ -57,14 +66,61 @@ h2 {
 
 h3 {
     font-size: 30px;
-    margin: 10px 0px;
+    line-height: 30px;
+    margin: 0;
+}
+
+main {
+    display: grid;
+    grid-column-gap: 50px;
+    width: 100%;
+    grid-template-areas: 
+        "here"
+        "favorite_header"
+        "favorite";
+}
+
+.here {
+    display: grid;
+    grid-area: here;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: 
+        "here_left here_right"
+}
+
+.here_left {
+    grid-area: here_left;
+}
+
+.here .weather_info {
+    grid-area: here_right;
+}
+
+.here_loader {
+    grid-column: 1 / 2;
+    grid-row: 1 / 1;
+}
+
+.favorite_header {
+    grid-area: favorite_header;
+}
+
+.favorite {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-area: favorite;
+}
+
+.favorite>li {
+    grid-template-columns: 1fr;
 }
 
 .here, .favorite_header, .favorite {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     column-gap: 50px;
     width: 100%;
+}
+
+.favorite_header {
     flex-wrap: wrap;
 }
 
@@ -82,9 +138,10 @@ h3 {
 
 .icon_weather {
     display: inline-flex;
-    background-image: url('img/weather.png');
+    background-color: #708185;
     background-repeat: no-repeat;
     background-size: contain;
+    border-radius: 5px;
     min-width: 40px;
     min-height: 40px;
 }
@@ -97,6 +154,44 @@ h3 {
     min-width: 120px;
     min-height: 120px;
 }
+
+.icon_weather.weather_sunny {
+    background-image: url('https://openweathermap.org/img/wn/01d@4x.png');
+}
+
+.icon_weather.weather_light_clouds {
+    background-image: url('https://openweathermap.org/img/wn/02d@4x.png');
+}
+
+.icon_weather.weather_clouds {
+    background-image: url('https://openweathermap.org/img/wn/03d@4x.png');
+}
+
+.icon_weather.weather_heavy_clouds {
+    background-image: url('https://openweathermap.org/img/wn/04d@4x.png');
+}
+
+.icon_weather.weather_light_rain {
+    background-image: url('https://openweathermap.org/img/wn/09d@4x.png');
+}
+
+.icon_weather.weather_rain {
+    background-image: url('https://openweathermap.org/img/wn/10d@4x.png');
+}
+
+.icon_weather.weather_thunder {
+    background-image: url('http://openweathermap.org/img/wn/11d@4x.png');
+}
+
+.icon_weather.weather_snow {
+    background-image: url('http://openweathermap.org/img/wn/13d@4x.png');
+}
+
+.icon_weather.weather_mist {
+    background-image: url('http://openweathermap.org/img/wn/50d@4x.png');
+}
+
+
 
 .temperature_here{
     font-size: 70px;
@@ -137,19 +232,21 @@ ul {
     padding: 0px;
 }
 
-.fav_city_header {
+.favorite_city_header {
     display: flex;
-    padding: 0px;
+    padding: 10px 0;
+    position: relative;
     align-items: center;
     justify-content: start;
-    gap: 20px;
+    gap: 10px;
+    flex-wrap: wrap-reverse;
 }
 
-.fav_city_header .btn_delete {
+.favorite_city_header .btn_delete {
     margin-left: auto;
 }
 
-.fav_city_header .temperature {
+.favorite_city_header .temperature {
     font-size: 30px
 }
 
@@ -182,7 +279,20 @@ ul {
     margin-right: 5px;
 }
 
-@media screen and (max-width: 710px) {
+.loader {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+    padding: 10px;
+    font-size: 60px;
+}
+
+.favorite .loader {
+    font-size: 30px;
+}
+
+@media screen and (max-width: 768px) {
 
     body {    
         width: calc(100vw - 20px);
@@ -193,7 +303,13 @@ ul {
         width: calc(100vw - 20px);
     }
 
-    .btn_update {
+    .here {
+        grid-template-areas: 
+            "here_left"
+            "here_right";
+    }
+
+    .btn_update_main {
         display: none;
     }
 
