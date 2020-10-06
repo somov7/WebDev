@@ -180,15 +180,15 @@ main {
 }
 
 .icon_weather.weather_thunder {
-    background-image: url('http://openweathermap.org/img/wn/11d@4x.png');
+    background-image: url('https://openweathermap.org/img/wn/11d@4x.png');
 }
 
 .icon_weather.weather_snow {
-    background-image: url('http://openweathermap.org/img/wn/13d@4x.png');
+    background-image: url('https://openweathermap.org/img/wn/13d@4x.png');
 }
 
 .icon_weather.weather_mist {
-    background-image: url('http://openweathermap.org/img/wn/50d@4x.png');
+    background-image: url('https://openweathermap.org/img/wn/50d@4x.png');
 }
 
 
