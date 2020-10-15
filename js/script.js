@@ -108,8 +108,7 @@ function createCityCardHere(weather) {
 
 async function addCity(event) {
     event.preventDefault();
-    form = document.forms.add_city;
-    input = form.elements.input;
+    input = event.target.input;
     cityName = input.value;
     if (cityName == ''){
         return;
