@@ -299,21 +299,31 @@ ul {
     border-radius: 15px;
     margin-right: 10px;
     background-color: #7e7e7e;
-    animation-duration: 2s;
-    animation-timing-function: steps(2, end);
-    animation-iteration-count: infinite;
+    -webkit-animation: 2s steps(2, end) infinite;
+    -moz-animation: 2s steps(2, end) infinite;
+    -o-animation: 2s steps(2, end) infinite;
+    animation: 2s steps(2, end) infinite;
 }
 
 .loader div:nth-child(1) {
-    animation-name: blink-1;
+    -webkit-animation-name: blink-1;
+    -moz-animation-name: blink-1;
+    -o-animation-name: blink-1;
+    animation-name: blink-1
 }
 
 .loader div:nth-child(2) {
-    animation-name: blink-2;
+    -webkit-animation-name: blink-2;
+    -moz-animation-name: blink-2;
+    -o-animation-name: blink-2;
+    animation-name: blink-2
 }
 
 .loader div:nth-child(3) {
-    animation-name: blink-3;
+    -webkit-animation-name: blink-3;
+    -moz-animation-name: blink-3;
+    -o-animation-name: blink-3;
+    animation-name: blink-3
 }
 
 li.loader div {
@@ -323,31 +333,64 @@ li.loader div {
     margin-right: 5px;
 }
 
+@-webkit-keyframes blink-1 {
+    0% {visibility: hidden;}
+    10% {visibility: visible;}
+}
+
+@-moz-keyframes blink-1 {
+    0% {visibility: hidden;}
+    10% {visibility: visible;}
+}
+
+@-o-keyframes blink-1 {
+    0% {visibility: hidden;}
+    10% {visibility: visible;}
+}
+
 @keyframes blink-1 {
-    0% {
-        visibility: hidden;
-    }
-    10% {
-        visibility: visible;
-    }
+    0% {visibility: hidden;}
+    10% {visibility: visible;}
+}
+
+@-webkit-keyframes blink-2 {
+    0% {visibility: hidden;}
+    50% {visibility: visible;}
+}
+
+@-moz-keyframes blink-2 {
+    0% {visibility: hidden;}
+    50% {visibility: visible;}
+}
+
+@-o-keyframes blink-2 {
+    0% {visibility: hidden;}
+    50% {visibility: visible;}
 }
 
 @keyframes blink-2 {
-    0% {
-        visibility: hidden;
-    }
-    50% {
-        visibility: visible;
-    }
+    0% {visibility: hidden;}
+    50% {visibility: visible;}
+}
+
+@-webkit-keyframes blink-3 {
+    0% {visibility: hidden;}
+    80% {visibility: visible;}
+}
+
+@-moz-keyframes blink-3 {
+    0% {visibility: hidden;}
+    80% {visibility: visible;}
+}
+
+@-o-keyframes blink-3 {
+    0% {visibility: hidden;}
+    80% {visibility: visible;}
 }
 
 @keyframes blink-3 {
-    0% {
-        visibility: hidden;
-    }
-    80% {
-        visibility: visible;
-    }
+    0% {visibility: hidden;}
+    80% {visibility: visible;}
 }
 
 @media screen and (max-width: 768px) {
