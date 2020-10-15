@@ -8,6 +8,10 @@ let apiLink = 'https://api.openweathermap.org/data/2.5/weather?units=metric&lang
 window.onload = function() {
     loadHere();
     loadFavorites();
+    addCityForm = document.forms.add_city;
+    addCityForm.addEventListener('submit', addCity);
+    btnMain = document.querySelector('header .btn_update_main').addEventListener('click', loadHere);
+    btnMobile = document.querySelector('header .btn_update_mobile').addEventListener('click', loadHere);
 }
 
 async function getWeather(url){
@@ -80,6 +84,7 @@ function createCityCardFavorite(weather) {
     card.querySelector('h3').innerHTML = weather.name;
     card.querySelector('span.temperature').insertAdjacentHTML('afterbegin', weather.main.temp);
     card.querySelector('div.icon_weather').classList.add('weather_' + weatherIdToIcon(weather.weather[0].id));
+    card.querySelector('input').addEventListener('click', deleteCity);
     for (item of cityInfoItems(weather)) {
         card.querySelector('ul.weather_info').append(item);
     }
@@ -89,10 +94,6 @@ function createCityCardFavorite(weather) {
 
 function createCityCardHere(weather) {
     
-    let oldCard = document.querySelector('main div.here');
-    if(oldCard != null) {
-        oldCard.remove();
-    }
     let card = document.getElementById('here').content.cloneNode(true);
 
     card.querySelector('div.here_left h2').innerHTML = weather.name;
@@ -105,16 +106,27 @@ function createCityCardHere(weather) {
     return card;
 }   
 
-async function addCity() {
-    cityName = document.querySelector('div.add_city input[type=input]').value;
+async function addCity(event) {
+    event.preventDefault();
+    form = document.forms.add_city;
+    input = form.elements.input;
+    cityName = input.value;
     if (cityName == ''){
         return;
     }
-
+    
+    input.value = '';
     let loader = document.getElementById('loader_favorite').content.cloneNode(true);
     document.querySelector('ul.favorite').append(loader);
     
-    weather = await getWeatherByName(cityName);
+    try {
+        weather = await getWeatherByName(cityName);
+    }   
+    catch (err) {
+        document.querySelector('ul.favorite').removeChild(document.querySelector('ul.favorite li.loader'));
+        alert('Не удалось загрузить информацию');
+        return;
+    }
     if (weather.cod >= 300) {
         document.querySelector('ul.favorite').removeChild(document.querySelector('ul.favorite li.loader'));
         alert('Не удалось загрузить информацию');
@@ -131,8 +143,9 @@ async function addCity() {
     document.querySelector('ul.favorite').replaceChild(createCityCardFavorite(weather), document.querySelector('ul.favorite li.loader'));
 }
 
-function deleteCity(element) {
-    let cityCard = element.parentNode.parentNode;
+function deleteCity(event) {
+    let cityCard = event.target.parentNode.parentNode;
+    console.log(event.target);
     let cityID = cityCard.getAttribute('data-city_id');
     for (let i = 0; i < favoriteCities.length; i++) {
         if (favoriteCities[i] == cityID) {
@@ -155,7 +168,13 @@ async function loadFavorites() {
         document.querySelector('ul.favorite').append(loader);
     }
     for (let cityID of favoriteCities) {
-        weather = await getWeatherByID(cityID);
+        try {
+            weather = await getWeatherByID(cityID);
+        }
+        catch (err) {
+            document.querySelector('ul.favorite').removeChild(document.querySelector('ul.favorite li.loader'));
+            alert('Не удалось загрузить информацию');
+        }
         if(weather.cod >= 300){
             document.querySelector('ul.favorite').removeChild(document.querySelector('ul.favorite li.loader'));
             alert('Не удалось загрузить информацию');
@@ -167,34 +186,49 @@ async function loadFavorites() {
 }
 
 async function loadHereByCoords(position) {
-    weather = await getWeatherByCoords(position.coords.latitude, position.coords.longitude);
+    errorDiv = document.getElementById('error_here').content.cloneNode(true);
+    errorDiv.querySelector('input').addEventListener('click', loadHere);
+    try {
+        weather = await getWeatherByCoords(position.coords.latitude, position.coords.longitude);
+    }
+    catch (err) {
+        document.querySelector('.here').replaceChild(errorDiv, document.querySelector('.here .loader'));
+        alert('Не удалость загрузить информацию');
+    }
     if(weather.cod >= 300){
+        document.querySelector('.here').replaceChild(errorDiv, document.querySelector('.here .loader'));
         alert('Не удалось загрузить информацию');
     } 
     else {
-        document.querySelector('main').prepend(createCityCardHere(weather));
-        document.querySelector('div.loader').remove();  
+        document.querySelector('.here').replaceChild(createCityCardHere(weather), document.querySelector('.here .loader'));
     }
 }
 
 
 async function loadHereDefault(error) {
-    weather = await getWeatherByID(defaulCity);
+    errorDiv = document.getElementById('error_here').content.cloneNode(true);
+    errorDiv.querySelector('input').addEventListener('click', loadHere);
+    try {
+        weather = await getWeatherByID(defaulCity);
+    }
+    catch (err) {
+        document.querySelector('.here').replaceChild(errorDiv, document.querySelector('.here .loader'));
+        alert('Не удалость загрузить информацию');
+    }
     if(weather.cod >= 300){
+        document.querySelector('.here').replaceChild(errorDiv, document.querySelector('.here .loader'));
         alert('Не удалось загрузить информацию');
     } 
     else {
-        document.querySelector('main').prepend(createCityCardHere(weather));
-        document.querySelector('div.loader').remove();
+        document.querySelector('.here').replaceChild(createCityCardHere(weather), document.querySelector('.here .loader'));
     }
 }
 
 async function loadHere() {
     let divHere = document.querySelector('div.here');
-    if (divHere != null)
-        divHere.remove();
     let loader = document.getElementById('loader_here').content.cloneNode(true);
-    document.querySelector('main').prepend(loader);
+    document.querySelector('.here').innerHTML = "";
+    document.querySelector('.here').append(loader);
     if (!navigator.geolocation) {
         loadHereDefault();
     }
@@ -211,8 +245,9 @@ function degreesToDirection(degrees) {
         "восточный", "восточно-юго-восточный", "юго-восточный", "юго-юго-восточный", 
         "южный", "юго-юго-западный", "юго-западный", "западно-юго-западный",
         "западный", "западно-северо-западный", "северо-западный", "северо-северо-западный"];
-    if(degrees < 0 || degrees > fullCircle) 
+    if(degrees < 0 || degrees > fullCircle) {
         return null;
+    }
     for (let dir = 0, i = 0; dir < fullCircle; dir += dirRange, i++) {
         diff = degrees - dir;
         if ((diff >= -0.5 * dirRange && diff < 0.5 * dirRange) || 

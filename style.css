@@ -13,12 +13,17 @@ header {
     display: flex;
 }
 
-.btn_update, .btn_retry {
+.btn_update, .btn_retry, .error .btn {
     color: #708289;
     background-color: #c9d2d7;
     border: none;
     border-radius: 10px;
     align-self: center;
+}
+
+.error .btn {
+    padding: 10px 40px;
+    opacity: 100%;
 }
 
 .btn_update_main, .btn_update_mobile {
@@ -96,8 +101,8 @@ main {
     grid-area: here_right;
 }
 
-.here_loader {
-    grid-column: 1 / 2;
+.here .loader, .error {
+    grid-column: 1 / span 2;
     grid-row: 1 / 1;
 }
 
@@ -191,8 +196,6 @@ main {
     background-image: url('https://openweathermap.org/img/wn/50d@4x.png');
 }
 
-
-
 .temperature_here{
     font-size: 70px;
     line-height: 70px;
@@ -279,7 +282,7 @@ ul {
     margin-right: 5px;
 }
 
-.loader {
+.loader, .error {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
@@ -290,6 +293,13 @@ ul {
 
 .favorite .loader {
     font-size: 30px;
+}
+
+.favorite .loader div {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    margin-right: 5px;
 }
 
 .loader div {
@@ -324,13 +334,6 @@ ul {
     -moz-animation-name: blink-3;
     -o-animation-name: blink-3;
     animation-name: blink-3
-}
-
-li.loader div {
-    width: 8px;
-    height: 8px;
-    border-radius: 8px;
-    margin-right: 5px;
 }
 
 @-webkit-keyframes blink-1 {
@@ -391,6 +394,12 @@ li.loader div {
 @keyframes blink-3 {
     0% {visibility: hidden;}
     80% {visibility: visible;}
+}
+
+.error {
+    color: #f0320c;
+    opacity: 70%;
+    padding: 0px;
 }
 
 @media screen and (max-width: 768px) {
