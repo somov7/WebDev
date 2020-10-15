@@ -57,7 +57,7 @@ function cityInfoItems(weather) {
     let items = []
 
     params = [
-        {name: 'Ветер', value: weather.wind.speed + ' м/с'}, 
+        {name: 'Ветер', value: weather.wind.speed + ' м/с, ' + degreesToDirection(weather.wind.deg)}, 
         {name: 'Облачность', value: weather.clouds.all + '%'},
         {name: 'Давление', value: weather.main.pressure + ' гПа'},
         {name: 'Влажность', value: weather.main.humidity + '%'},
@@ -200,5 +200,24 @@ async function loadHere() {
     }
     else {
         navigator.geolocation.getCurrentPosition(loadHereByCoords, loadHereDefault);
+    }
+}
+
+function degreesToDirection(degrees) {
+    const dirRange = 22.5; // "ширина" одного направления
+    const fullCircle = 360;
+    const directions = [
+        "северный", "северо-северо-восточный", "северо-восточный", "восточно-северо-восточный",
+        "восточный", "восточно-юго-восточный", "юго-восточный", "юго-юго-восточный", 
+        "южный", "юго-юго-западный", "юго-западный", "западно-юго-западный",
+        "западный", "западно-северо-западный", "северо-западный", "северо-северо-западный"];
+    if(degrees < 0 || degrees > fullCircle) 
+        return null;
+    for (let dir = 0, i = 0; dir < fullCircle; dir += dirRange, i++) {
+        diff = degrees - dir;
+        if ((diff >= -0.5 * dirRange && diff < 0.5 * dirRange) || 
+            (diff - fullCircle >= -0.5 * dirRange && diff - fullCircle < 0.5 * dirRange)) {
+                return directions[i];
+            }
     }
 }
