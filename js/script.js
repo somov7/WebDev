@@ -168,14 +168,25 @@ async function loadFavorites() {
 
 async function loadHereByCoords(position) {
     weather = await getWeatherByCoords(position.coords.latitude, position.coords.longitude);
-    document.querySelector('main').prepend(createCityCardHere(weather));
-    document.querySelector('div.loader').remove();
+    if(weather.cod >= 300){
+        alert('Не удалось загрузить информацию');
+    } 
+    else {
+        document.querySelector('main').prepend(createCityCardHere(weather));
+        document.querySelector('div.loader').remove();  
+    }
 }
+
 
 async function loadHereDefault(error) {
     weather = await getWeatherByID(defaulCity);
-    document.querySelector('main').prepend(createCityCardHere(weather));
-    document.querySelector('div.loader').remove();
+    if(weather.cod >= 300){
+        alert('Не удалось загрузить информацию');
+    } 
+    else {
+        document.querySelector('main').prepend(createCityCardHere(weather));
+        document.querySelector('div.loader').remove();
+    }
 }
 
 async function loadHere() {
