@@ -1,8 +1,4 @@
-let favoriteCities
-const defaulCity = 498817
-let positionHere
-
-let serverLink = 'https://webdev-weather-server.glitch.me/'
+const serverLink = 'https://webdev-weather-server.glitch.me/'
 
 window.onload = function() {
     loadHere()
@@ -32,8 +28,8 @@ function getWeatherByName(cityName){
     return getWeather(requestURL)
 }
 
-function getWeatherByID(cityID){
-    requestURL = serverLink + '/weather/id/?q=' + encodeURI(cityID)
+function getWeatherDefault(){
+    requestURL = serverLink + '/weather/default'
     return getWeather(requestURL)
 }
 
@@ -47,13 +43,18 @@ function getFavoriteWeatherList() {
     return getWeather(requestURL)
 }
 
+function getWeatherByID(cityID){
+    requestURL = serverLink +  '/favourites/' + encodeURI(cityID)
+    return getWeather(requestURL)
+}
+
 function addFavoriteCity(cityName) {
-    requestURL = serverLink + '/favourites?q=' + cityName 
+    requestURL = serverLink + '/favourites/' +  encodeURI(cityName)
     return getWeather(requestURL, 'POST')
 }
 
 function deleteFavoriteCity(cityID) {
-    requestURL = serverLink + '/favourites?q=' + cityID 
+    requestURL = serverLink + '/favourites/' +  encodeURI(cityID)
     return getWeather(requestURL, 'DELETE')
 }
 
@@ -187,7 +188,7 @@ async function loadFavorites() {
             alert('Не удалось получить список избранных городов')
             return
         }
-        favoriteCities = weatherResponse.cities 
+        let favoriteCities = weatherResponse.cities 
         for(let i = 0; i < favoriteCities.length; i++){
             let loader = document.getElementById('loader_favorite').content.cloneNode(true)
             document.querySelector('ul.favorite').append(loader)
@@ -241,7 +242,7 @@ async function loadHereDefault(error) {
     errorDiv = document.getElementById('error_here').content.cloneNode(true)
     errorDiv.querySelector('input').addEventListener('click', loadHere)
     try {
-        weatherRequest = await getWeatherByID(defaulCity)
+        weatherRequest = await getWeatherDefault()
         if(!weatherRequest.success){
             document.querySelector('.here').replaceChild(errorDiv, document.querySelector('.here .loader'))
             alert('Не удалось загрузить информацию')
