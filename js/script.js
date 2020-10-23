@@ -15,7 +15,11 @@ window.onload = function() {
 
 async function getWeather(url, method = 'GET'){
     try {
-        const response = await fetch(url, { method: method })
+        const response = await fetch(url, { 
+            method: method, 
+            credentials: 'include',
+            secure: true
+        })
         let data = await response.json()
         return data
     } catch (error) {
