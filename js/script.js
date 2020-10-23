@@ -2,7 +2,7 @@ let favoriteCities
 const defaulCity = 498817
 let positionHere
 
-let serverLink = 'http://localhost:3000'
+let serverLink = 'http://127.0.0.1:3000'
 
 window.onload = function() {
     loadHere()
@@ -15,10 +15,7 @@ window.onload = function() {
 
 async function getWeather(url, method = 'GET'){
     try {
-        const response = await fetch(url, { 
-            method: method,
-            credentials: 'include'
-        })
+        const response = await fetch(url, { method: method })
         let data = await response.json()
         return data
     } catch (error) {
