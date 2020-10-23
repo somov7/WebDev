@@ -2,7 +2,7 @@ let favoriteCities
 const defaulCity = 498817
 let positionHere
 
-let serverLink = 'http://127.0.0.1:3000'
+let serverLink = 'https://webdev-weather-server.glitch.me/'
 
 window.onload = function() {
     loadHere()
